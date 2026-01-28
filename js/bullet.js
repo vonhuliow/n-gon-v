@@ -31,7 +31,7 @@ const b = {
                 }
                 if (m.holdingTarget) m.drop();
             }
-            b.guns[b.activeGun].do();
+            if (b.guns[b.activeGun].do) b.guns[b.activeGun].do();
         }
     },
     fireNotMove() { //added  && player.speed < 0.5 && m.onGround  
@@ -44,7 +44,7 @@ const b = {
                 }
                 if (m.holdingTarget) m.drop();
             }
-            b.guns[b.activeGun].do();
+            if (b.guns[b.activeGun].do) b.guns[b.activeGun].do();
         }
     },
     fireAlwaysFire() { //added  && player.speed < 0.5 && m.onGround  //removed input.fire && (!input.field || m.fieldFire)
@@ -55,7 +55,7 @@ const b = {
                 }
                 if (m.holdingTarget) m.drop();
             }
-            b.guns[b.activeGun].do();
+            if (b.guns[b.activeGun].do) b.guns[b.activeGun].do();
         }
     },
     fireFloat() { //added  && player.speed < 0.5 && m.onGround  
@@ -76,7 +76,7 @@ const b = {
                 player.force.x = 0
                 player.force.y = 0
             }
-            b.guns[b.activeGun].do();
+            if (b.guns[b.activeGun].do) b.guns[b.activeGun].do();
         }
     },
     fireWithAmmo() { //triggers after firing when you have ammo
@@ -295,7 +295,7 @@ const b = {
     fireAttributes(dir, rotate = true) {
         if (rotate) {
             return {
-                // density: 0.0015,			//frictionAir: 0.01,			//restitution: 0,
+                // density: 0.0015,                     //frictionAir: 0.01,                    //restitution: 0,
                 angle: dir,
                 friction: 0.5,
                 frictionAir: 0,
@@ -311,7 +311,7 @@ const b = {
             };
         } else {
             return {
-                // density: 0.0015,			//frictionAir: 0.01,			//restitution: 0,
+                // density: 0.0015,                     //frictionAir: 0.01,                    //restitution: 0,
                 inertia: Infinity, //prevents rotation
                 angle: dir,
                 friction: 0.5,
@@ -3013,7 +3013,7 @@ const b = {
         const bIndex = bullet.length;
         const size = 4
         bullet[bIndex] = Bodies.polygon(where.x, where.y, size, size, {
-            // density: 0.0015,			//frictionAir: 0.01,
+            // density: 0.0015,                 //frictionAir: 0.01,
             inertia: Infinity,
             isFreeze: tech.isSporeFreeze,
             restitution: 0.5,
