@@ -283,7 +283,7 @@
         {
             name: "cosmic attunement",
             description: "<strong>cosmic attunement</strong><br>+25% damage with cosmic ore weapons",
-            isGunTech: false,
+            isGunTech: true,
             maxCount: 1,
             count: 0,
             allowed() { return true },
