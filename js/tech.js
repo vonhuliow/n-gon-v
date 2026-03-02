@@ -350,7 +350,112 @@ const tech = {
         }
     },
     tech: [{
-        name: "tungsten carbide",
+        name: "aimbot.exe",
+        description: "<strong>Hacker</strong><br>Auto-aims your crosshair at the nearest visible enemy.",
+        maxCount: 1,
+        count: 0,
+        allowed() { return true },
+        requires: "",
+        effect() {
+            simulation.ephemera.push({
+                name: "aimbot",
+                do() {
+                    let closest = null;
+                    let minDist = 1000000;
+                    for (let i = 0; i < mob.length; i++) {
+                        if (mob[i].alive && mob[i].seePlayer.yes) {
+                            const d2 = Vector.magnitudeSquared(Vector.sub(m.pos, mob[i].position));
+                            if (d2 < minDist) {
+                                minDist = d2;
+                                closest = mob[i];
+                            }
+                        }
+                    }
+                    if (closest) {
+                        simulation.mouseInGame.x = closest.position.x;
+                        simulation.mouseInGame.y = closest.position.y;
+                    }
+                }
+            })
+        },
+        remove() { simulation.removeEphemera("aimbot", true) }
+    },
+    {
+        name: "wormhole generator",
+        description: "<strong>Godly</strong><br>Summon wormholes that teleport enemies into the void.",
+        maxCount: 1,
+        count: 0,
+        allowed() { return true },
+        requires: "",
+        effect() {
+            tech.isWormhole = true;
+        },
+        remove() { tech.isWormhole = false; }
+    },
+    {
+        name: "admin console",
+        description: "<strong>Godly</strong><br>Gain massive damage and speed but lose all money.",
+        maxCount: 1,
+        count: 0,
+        allowed() { return true },
+        requires: "",
+        effect() {
+            m.damageDone *= 5;
+            m.setMovement();
+            if (typeof game !== 'undefined') game.money = 0;
+        },
+        remove() { m.damageDone /= 5; }
+    },
+    {
+        name: "automatic orb pickup",
+        description: "Orbs within 500px are automatically pulled towards you.",
+        maxCount: 1,
+        count: 0,
+        isAutoOrb: true,
+        allowed() { return true },
+        requires: "none",
+        effect() { tech.isAutoOrb = true; },
+        remove() { tech.isAutoOrb = false; }
+    },
+    {
+        name: "leveling system",
+        description: "Gain XP from kills. Level up to increase health.",
+        maxCount: 1,
+        count: 0,
+        isLeveling: true,
+        allowed() { return true },
+        requires: "none",
+        effect() { tech.isLeveling = true; },
+        remove() { tech.isLeveling = false; }
+    },
+    {
+        name: "aimbot.exe",
+        description: "Automatically aims at the nearest mob when firing.",
+        maxCount: 1,
+        count: 0,
+        isAimbot: true,
+        allowed() { return true },
+        requires: "none",
+        effect() { tech.isAimbot = true; },
+        remove() { tech.isAimbot = false; }
+    },
+    {
+        {
+          name: "admin console",
+          description: "Sacrifice half your current health to deal 5x damage for 10 seconds.",
+          maxCount: 9,
+          count: 0,
+          allowed() { return m.health > 0.5 },
+          requires: "none",
+          effect() {
+              m.health *= 0.5;
+              const oldDamage = m.damageDone;
+              m.damageDone *= 5;
+              setTimeout(() => { m.damageDone = oldDamage; }, 10000);
+          },
+          remove() {}
+      },,
+    name: "tungsten carbide",
         descriptionFunction() {
             return `<strong>+600</strong> maximum <strong class='color-h'>health</strong><br>lose up to <strong>${(60 * m.defense()).toFixed(0)}</strong> <strong class='color-h'>health</strong> after hard <strong>landings</strong>`
         },
